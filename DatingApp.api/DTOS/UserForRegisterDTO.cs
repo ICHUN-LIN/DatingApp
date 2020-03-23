@@ -8,7 +8,7 @@ namespace DatingApp.api.DTOS
         public string UserName {get; set;}
 
         [Required]
-        [StringLength(8,MinimumLength=4,ErrorMessage="error msg")]
+        [StringLength(8,MinimumLength=4,ErrorMessage="minimum length is 4, maximun is 8")]
         public string Password {get; set;}
     }
 }

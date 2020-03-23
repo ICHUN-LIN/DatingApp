@@ -16,6 +16,7 @@ using DatingApp.api.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.Google;
 
 
 namespace DatingApp.api

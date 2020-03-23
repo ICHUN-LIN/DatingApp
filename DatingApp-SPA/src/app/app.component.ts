@@ -7,4 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
-} //data it would provide to component.html
+} // data it would provide to component.html

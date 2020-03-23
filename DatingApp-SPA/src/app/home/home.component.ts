@@ -1,17 +1,28 @@
-import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-// this is client
+import { Component, OnInit } from '@angular/core';
+
 @Component({
-  selector: 'app-value',
-  templateUrl: './value.component.html',
-  styleUrls: ['./value.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class ValueComponent implements OnInit {
+export class HomeComponent implements OnInit {
+
+  registerMode = false;
   values: any;
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.getvalue();
+  }
+
+  registerToggle(): void {
+    this.registerMode = !this.registerMode;
+  }
+
+  cancelEventHandler(registerMode: boolean ): void {
+    this.registerMode = registerMode;
   }
 
   getvalue(): void {
