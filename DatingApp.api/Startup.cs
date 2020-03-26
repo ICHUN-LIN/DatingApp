@@ -17,6 +17,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Google;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using DatingApp.api.Helpers;
 
 
 namespace DatingApp.api
@@ -51,9 +55,24 @@ namespace DatingApp.api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
+            {   //running in Development mode
                 //return friendly development page while exception happen
                 app.UseDeveloperExceptionPage();
+            }else
+            {
+                //builder as options
+                app.UseExceptionHandler(builder=>{
+                    builder.Run(async context => {
+                        //gloable set StatusCode
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        //gloable get exception message from excepption
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                        if(error!=null)
+                        {
+                            context.Response.AddApplicationError(error.Error.Message);
+                            await context.Response.WriteAsync(error.Error.Message);                        }
+                    });
+                });
             }
 
             //app.UseHttpsRedirection();

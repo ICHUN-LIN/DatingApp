@@ -57,6 +57,10 @@ namespace DatingApp.api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDTO userForLoginDTO)
         {
+          //  try use global handler in StartUp.cs
+         //   {
+            throw new Exception("server is not working");
+
             var userFromRepo = await _repo.Login(userForLoginDTO.UserName.ToLower(), userForLoginDTO.Password);
 
             if(userFromRepo == null)
@@ -89,7 +93,12 @@ namespace DatingApp.api.Controllers
 
             return Ok(new { //jason string
                 token = v
-            });   
+            });
+          //  }
+           // catch(Exception e)
+           // {
+                return BadRequest("handler1: server doesn't work");
+           // }   
 
 
         }
