@@ -1,7 +1,9 @@
+import { AlertifyService } from './../_service/alertify.service';
 import { AuthService } from './../_service/auth.service';
 import { logging } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 import { tokenReference } from '@angular/compiler';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -11,16 +13,22 @@ import { tokenReference } from '@angular/compiler';
 export class NavComponent implements OnInit {
   model: any = {};
 
-  constructor( private authService: AuthService) { }
+  constructor( public authService: AuthService, private alertifyService : AlertifyService,
+    private router : Router) { 
+
+  }
 
   ngOnInit(): void {
   }
 
   login(): void  {
     this.authService.login(this.model).subscribe(() => {
-        console.log('login successfully');
+      this.alertifyService.success('login successfully');
       }, error => {
-        console.log(error);
+        this.alertifyService.error(error);
+      }, complete =>
+      {
+        this.router.navigate(['/members']);
       });
 
     console.log(this.model);
@@ -28,13 +36,16 @@ export class NavComponent implements OnInit {
 
   // tslint:disable-next-line: align
   logedIn(): boolean {
-    const token = localStorage.getItem('token');
-    return !!token; // if token exist, return true, else return false
+    //const token = localStorage.getItem('token');
+    //return !!token; // if token exist, return true, else return false
+    return this.authService.loggedin();
   }
 
   logout(): void {
     localStorage.removeItem('token');
-    console.log('logout succefully');
+    this.authService.decodeToken = null;
+    this.alertifyService.message('logout succefully');
+    this.router.navigate(['/home']);
   }
 
 }

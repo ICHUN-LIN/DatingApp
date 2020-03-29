@@ -21,6 +21,8 @@ using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using DatingApp.api.Helpers;
+using Newtonsoft.Json;
+using AutoMapper;
 
 
 namespace DatingApp.api
@@ -37,9 +39,17 @@ namespace DatingApp.api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("Default")));
-            services.AddControllers();
+            //AddNewtonsoftJson: use new json format to return, It's slight different than it recently 
+            services.AddControllers().AddNewtonsoftJson(
+                options => {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            }
+            );
             services.AddCors();
+            //what is assembly means? which asembly you are look in for profiles.
+            services.AddAutoMapper(typeof(DatingApp.api.Helpers.AutoMapperProfiles).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IDatingRepository,DatingRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(Options=>
                 Options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -49,6 +59,7 @@ namespace DatingApp.api
                     ValidateAudience = false
                 }
             );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

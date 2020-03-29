@@ -41,7 +41,7 @@ export class ErrorInterCeptor implements HttpInterceptor {
 }
 
 export const ErrorInterCeptorProvider = {
-        provide: HTTP_INTERCEPTORS,
+        provide: HTTP_INTERCEPTORS, //可以在request近來的時候做處理，加在
         useClass: ErrorInterCeptor,
         multi: true
     };

@@ -59,7 +59,7 @@ namespace DatingApp.api.Controllers
         {
           //  try use global handler in StartUp.cs
          //   {
-            throw new Exception("server is not working");
+            //throw new Exception("server is not working");
 
             var userFromRepo = await _repo.Login(userForLoginDTO.UserName.ToLower(), userForLoginDTO.Password);
 
@@ -97,7 +97,7 @@ namespace DatingApp.api.Controllers
           //  }
            // catch(Exception e)
            // {
-                return BadRequest("handler1: server doesn't work");
+               // return BadRequest("handler1: server doesn't work");
            // }   
 
 
