@@ -1,0 +1,66 @@
+
+<!--
+<p>{{
+    user?.knownas
+}}
+?表示非null才執行
+</p>
+-->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card">
+                <img class="card-img-top img-thumbnail" src="{{user.photoUrl}}"  alt="{{user.knownas}}" />
+                <div class="card-body">
+                    <div>
+                        <strong>location:</strong>
+                        <p>{{user.city}},{{user.country}}</p>
+                    </div>
+                    <div>
+                        <strong>Age:</strong>
+                        <p>{{user.age}}</p>
+                    </div>
+                    <div>
+                        <strong>Last Active:</strong>
+                        <p>{{user.lastactived}}</p>
+                    </div>
+                    <div>
+                        <strong>member science:</strong>
+                        <p>{{user?.created}}</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                <!--d-fex: give button group-->
+                    <div class="btn-group d-flex">
+                    <!--w-100:give button 100 width-->
+                        <button class="btn btn-primary w-100">like</button>
+                        <button class="btn btn-success w-100">message</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-8">
+            <div class="tab-panel">
+                <tabset class="member-tabset">
+                    <tab heading="{{user?.knownas}}">
+                        <h4>Description</h4>
+                        <p>{{user?.introduction}}</p>
+                        <h4>Looking for</h4>
+                        <p>{{user?.lookingfor}}</p>
+                    </tab>
+                    <tab heading="Interests">
+                        <h4>Interests</h4>
+                        <p>{{user?.interests}}</p>
+                    </tab>
+                    <tab heading="Photos">
+                       <ngx-gallery [options]="gallaryoption" [images]="gallaryImg"></ngx-gallery>
+                    </tab>
+                    <tab heading="Messages">
+                       Messages will go here
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+    </div>
+</div>

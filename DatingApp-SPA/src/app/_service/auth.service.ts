@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { logging } from 'protractor';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -9,7 +10,7 @@ import { JwtHelperService } from '@auth0/angular-jwt'
   providedIn: 'root' // means app mouules
 })
 export class AuthService {
-  baseURL = 'http://localhost:5000/api/auth/';
+  baseURL = environment.BaseUrl + 'auth/';
   jwtHelperService = new JwtHelperService(); //jwt encode decode
   decodeToken : any;
 
