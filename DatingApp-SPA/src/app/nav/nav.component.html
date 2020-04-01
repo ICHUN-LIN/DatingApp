@@ -35,12 +35,12 @@
       </a>
       <!--mt-3 is margin top = 3 (bootstrap class)-->
       <div class="dropdown-menu mt-3" *dropdownMenu>
-        <a class="dropdown-item" href="#"><i class='fa fa-user'></i>Edite profile</a>
+        <a class="dropdown-item" [routerLink]="['/member/edit']"><i class='fa fa-user'></i>Edite profile</a>
         <div class='dropdown-divider'></div>
         <a class="dropdown-item" (click)='logout()' ><i class='fa fa-sign-out'></i>LogOut</a>
       </div>
     </span>
-    
+    <!--#nameOfForm(used by future)-->
     <form *ngIf="!logedIn()"   #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
       <input class="form-control mr-sm-2" type="text" placeholder="UserName" 
        name="username" required [(ngModel)]="model.username" #username="ngModel"
