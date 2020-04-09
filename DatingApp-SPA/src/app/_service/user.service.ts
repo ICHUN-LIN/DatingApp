@@ -1,5 +1,6 @@
 import { User } from './../_models/user';
 import { Observable } from 'rxjs';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
@@ -30,5 +31,13 @@ export class UserService {
 
   updateUser(id: number, user: User): any {
     return this.http.put(this.baseUrl+ 'users/'+ id, user);
+  }
+
+  setMainPhoto(userid: number, id: number): any {
+    return this.http.post(this.baseUrl+ 'users/' + userid + '/photos/' + id + '/setmain', {});
+  }
+
+  deletePhoto(userid: number, id: number): any {
+    return this.http.delete(this.baseUrl + 'users/' + userid + '/photos/' + id);
   }
 }

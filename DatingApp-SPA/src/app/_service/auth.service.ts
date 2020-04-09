@@ -1,5 +1,7 @@
+import { User } from 'src/app/_models/user';
 import { environment } from './../../environments/environment';
 import { logging } from 'protractor';
+import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
@@ -13,8 +15,15 @@ export class AuthService {
   baseURL = environment.BaseUrl + 'auth/';
   jwtHelperService = new JwtHelperService(); //jwt encode decode
   decodeToken : any;
+  currentUser: User;
+  photoUrl = new BehaviorSubject<string>('../../assets/user.png');
+  currentPhotoUrl = this.photoUrl.asObservable();
 
   constructor(private http: HttpClient) {  }
+
+  changeMemberPhoto(photourl: string) {
+    this.photoUrl.next(photourl); // change currentPhotoUrl trigger changed event
+  }
 
   login(model: any): any {
     // tslint:disable-next-line: no-unused-expression
@@ -23,6 +32,9 @@ export class AuthService {
         const user = response;
         if (user) {
           localStorage.setItem('token', user.token);
+          localStorage.setItem('user', JSON.stringify(user.user));
+          this.currentUser = user.user;
+          this.changeMemberPhoto(this.currentUser.photoUrl);
           //this.decodeToken = this.jwtHelperService.decodeToken(user.token);
         }
       })

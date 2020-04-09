@@ -12,6 +12,7 @@ import { JwtModule} from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery-9';
 import { BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 // RECOMMENDED
@@ -33,6 +34,7 @@ import { MemberCardComponent } from './members/member-card/member-card.component
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberListResolver } from './_resolver/member-list.resolver';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 
 export function tokengetter(){
   return localStorage.getItem('token');
@@ -40,6 +42,7 @@ export function tokengetter(){
 
 @NgModule({
   declarations: [
+   // FileDropDirective, FileSelectDirective,
     AppComponent,
     NavComponent,
     HomeComponent,
@@ -49,9 +52,12 @@ export function tokengetter(){
     MessagesComponent,
     MemberCardComponent,
     MemberDetailComponent,
-    MemberEditComponent
+    MemberEditComponent,
+    PhotoEditorComponent//,
+    //FileSelectDirective
   ],
   imports: [
+    //FileSelectDirective,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(), // ngx boottraps give function of bottrap without jquery.js
     BrowserModule,
@@ -66,10 +72,12 @@ export function tokengetter(){
     }), //for get jwt token
     RouterModule.forRoot(AppRoutsModel),
     TabsModule.forRoot(),
-    NgxGalleryModule // for gallery function     
+    NgxGalleryModule,
+    FileUploadModule  
   ],
   providers: [AuthService, ErrorInterCeptorProvider, AlertifyService,  MemberDetailResolver, MemberListResolver,
   MemberEditResolver, PreventUnsavedChanges ], //給indenpenncy injection 用
   bootstrap: [AppComponent] // 由此開始render
+
 })
 export class AppModule { }
