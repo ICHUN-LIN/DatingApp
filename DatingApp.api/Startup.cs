@@ -46,6 +46,8 @@ namespace DatingApp.api
             }
             );
             services.AddCors();
+            //auto map content from configuration("X") to <Y>
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             //what is assembly means? which asembly you are look in for profiles.
             services.AddAutoMapper(typeof(DatingApp.api.Helpers.AutoMapperProfiles).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();

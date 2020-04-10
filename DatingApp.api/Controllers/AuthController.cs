@@ -12,18 +12,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using AutoMapper;
 
 namespace DatingApp.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController] //help input validation
-    public class AuthController:ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
 
-        public AuthController(IAuthRepository repository, IConfiguration configuration)
+        public AuthController(IAuthRepository repository, IConfiguration configuration, IMapper mapper)
         {
+            this._mapper = mapper;
             this._repo = repository;
             this._configuration = configuration;
         }
@@ -34,12 +37,12 @@ namespace DatingApp.api.Controllers
             //[FromBody] let mvc core know where user come from
             user.UserName = user.UserName.ToLower();
 
-            if(!ModelState.IsValid)
-             return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if( await _repo.UserExist(user.UserName))
+            if (await _repo.UserExist(user.UserName))
                 return BadRequest("Username already exist");
-            
+
             var userToCreate = new User
             {
                 UserName = user.UserName
@@ -50,38 +53,41 @@ namespace DatingApp.api.Controllers
             //later come back
             //return CreatedAtRoute("rout",object)
 
-            return StatusCode(201); 
+            return StatusCode(201);
         }
-    
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDTO userForLoginDTO)
         {
-          //  try use global handler in StartUp.cs
-         //   {
+            //  try use global handler in StartUp.cs
+            //   {
             //throw new Exception("server is not working");
 
             var userFromRepo = await _repo.Login(userForLoginDTO.UserName.ToLower(), userForLoginDTO.Password);
 
-            if(userFromRepo == null)
+            if (userFromRepo == null)
                 return Unauthorized();
 
-            var claims = new []
+            var returnuser = _mapper.Map<UserForDetailedDTO>(userFromRepo);
+
+            var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.id.ToString()),
                 new Claim(ClaimTypes.Name, userForLoginDTO.UserName)
+                //new Claim(ClaimTypes.r)
             };
 
             //? check
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:token").Value));
 
-            var creds = new SigningCredentials(key,SecurityAlgorithms.HmacSha256Signature);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var tokendescript = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                SigningCredentials= creds,
-                Expires= DateTime.Now.AddDays(1),
+                SigningCredentials = creds,
+                Expires = DateTime.Now.AddDays(1),
 
             };
 
@@ -91,17 +97,19 @@ namespace DatingApp.api.Controllers
             var token = tokenHander.CreateToken(tokendescript);
             string v = tokenHander.WriteToken(token);
 
-            return Ok(new { //jason string
-                token = v
+            return Ok(new
+            { //jason string
+                token = v,
+                user = returnuser
             });
-          //  }
-           // catch(Exception e)
-           // {
-               // return BadRequest("handler1: server doesn't work");
-           // }   
+            //  }
+            // catch(Exception e)
+            // {
+            // return BadRequest("handler1: server doesn't work");
+            // }   
 
 
         }
-    
+
     }
 }

@@ -1,9 +1,10 @@
 using System;
-
 namespace DatingApp.api.DTOS
 {
-    public class PhotoDetailedDto
+    //Almost as the Same as PhotoForDetailed DTO(add new property:public ID)
+    public class PhotoForReturnDto
     {
+        
         public int Id { get; set; }
 
         public string Url { get; set; }
@@ -13,5 +14,7 @@ namespace DatingApp.api.DTOS
         public DateTime DateAdded { get; set; }
 
         public bool ismain { get; set; }
+
+        public string PublicID { get; set; }
     }
 }

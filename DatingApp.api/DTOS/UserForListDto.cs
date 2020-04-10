@@ -12,7 +12,7 @@ namespace DatingApp.api.DTOS
 
         public int Age { get; set; }
 
-        public string Knownas { get; set; }
+        public string knownas { get; set; }
 
         public DateTime Created { get; set; }
 

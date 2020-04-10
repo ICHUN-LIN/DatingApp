@@ -20,7 +20,10 @@ namespace DatingApp.api.Helpers
                 ForMember(dest=> dest.PhotoUrl, 
                     option=> option.MapFrom(src=>src.Photos.FirstOrDefault(x=>x.IsMain).Url))
                         .ForMember(x=>x.Age, y=>y.MapFrom(z=>z.DateOfBirth.CaculateYear()));
-            CreateMap<Photo,PhotoDetailedDto>();            
+            CreateMap<Photo,PhotoDetailedDto>();
+            CreateMap<UserForUpdateDTO,User>(); 
+            CreateMap<Photo,PhotoForReturnDto>();
+            CreateMap<PhotoForCreationDTO, Photo>();           
         }
     }
 }

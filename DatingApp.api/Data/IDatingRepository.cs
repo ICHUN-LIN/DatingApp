@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using DatingApp.api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.api.Data
 {
@@ -16,5 +17,8 @@ namespace DatingApp.api.Data
          Task<IEnumerable<User>> GetUsers();
 
          Task<User> GetUser(int id);
+
+         Task<Photo> GetPhotos(int id);
+         Task<Photo> GetMainPhotoForUser(int userid);
     }
 }

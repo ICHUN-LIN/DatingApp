@@ -13,6 +13,8 @@ namespace DatingApp.api.Models
         public DateTime DateAdded { get; set; }
 
         public bool IsMain { get; set; }
+        /*put reference to cloudinary storage key*/
+        public string PublicId { get; set; }
 
         public int UserId { get; set; }
 
