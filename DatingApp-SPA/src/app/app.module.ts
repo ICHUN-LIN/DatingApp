@@ -5,7 +5,7 @@ import { MemberDetailResolver } from './_resolver/member-detail.resolver';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { JwtModule} from '@auth0/angular-jwt';
@@ -13,6 +13,8 @@ import { NgxGalleryModule } from 'ngx-gallery-9';
 import { BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { FileUploadModule } from 'ng2-file-upload';
+// RECOMMENDED
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 // RECOMMENDED
@@ -63,6 +65,7 @@ export function tokengetter(){
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokengetter,
@@ -73,7 +76,8 @@ export function tokengetter(){
     RouterModule.forRoot(AppRoutsModel),
     TabsModule.forRoot(),
     NgxGalleryModule,
-    FileUploadModule  
+    FileUploadModule,
+    BsDatepickerModule.forRoot()  
   ],
   providers: [AuthService, ErrorInterCeptorProvider, AlertifyService,  MemberDetailResolver, MemberListResolver,
   MemberEditResolver, PreventUnsavedChanges ], //給indenpenncy injection 用
