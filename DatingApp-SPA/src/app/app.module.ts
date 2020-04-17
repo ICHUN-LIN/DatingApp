@@ -1,7 +1,7 @@
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { MemberEditResolver } from './_resolver/member-edit.resolver';
 import { MemberDetailResolver } from './_resolver/member-detail.resolver';
-
+//import {TimeAgoPipe} from 'time-ago-pipe';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -11,10 +11,12 @@ import { RouterModule } from '@angular/router';
 import { JwtModule} from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery-9';
 import { BsDropdownModule} from 'ngx-bootstrap/dropdown';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { FileUploadModule } from 'ng2-file-upload';
 // RECOMMENDED
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 
 // RECOMMENDED
@@ -66,6 +68,7 @@ export function tokengetter(){
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    ButtonsModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokengetter,
@@ -77,7 +80,9 @@ export function tokengetter(){
     TabsModule.forRoot(),
     NgxGalleryModule,
     FileUploadModule,
-    BsDatepickerModule.forRoot()  
+    BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot()
+    //,TimeAgoPipe  
   ],
   providers: [AuthService, ErrorInterCeptorProvider, AlertifyService,  MemberDetailResolver, MemberListResolver,
   MemberEditResolver, PreventUnsavedChanges ], //給indenpenncy injection 用

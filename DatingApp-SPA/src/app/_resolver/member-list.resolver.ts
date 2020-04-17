@@ -9,6 +9,8 @@ import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
 @Injectable()
 export class MemberListResolver implements Resolve<User>
 {
+    pageNumber = 1;
+    pageSize = 5;
 
     constructor(private userservice: UserService, private alertify: AlertifyService, private router: Router){
 
@@ -18,7 +20,7 @@ export class MemberListResolver implements Resolve<User>
 
         // tslint:disable-next-line: no-string-literal
         //put here, getUser is already subscribed automatically
-        return this.userservice.getUsers().pipe(
+        return this.userservice.getUsers(this.pageNumber, this.pageSize).pipe(
             catchError( error =>{
                     this.alertify.error('problem retriving data');
                     this.router.navigate(['/home']); // have to be different than now path, outherwise there will be a loop

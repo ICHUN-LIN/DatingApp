@@ -38,7 +38,7 @@ namespace DatingApp.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("Default")));
+            services.AddDbContext<DataContext>(x => x.UseLoggerFactory(DataContext.MyLoggerFactory).UseSqlite(Configuration.GetConnectionString("Default")));
             //AddNewtonsoftJson: use new json format to return, It's slight different than it recently 
             services.AddControllers().AddNewtonsoftJson(
                 options => {
@@ -61,6 +61,8 @@ namespace DatingApp.api
                     ValidateAudience = false
                 }
             );
+            //add instance in one request
+            services.AddScoped<LogUserActivity>();
 
         }
 

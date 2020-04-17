@@ -1,9 +1,11 @@
+import { PaginatedResult } from './../_models/pagination';
 import { User } from './../_models/user';
 import { Observable } from 'rxjs';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 
 /*
 //Tempory use it
@@ -21,8 +23,33 @@ export class UserService {
   baseUrl = environment.BaseUrl;
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<User[]>{
-    return this.http.get<User[]>(this.baseUrl + 'users');
+  getUsers(page?, itemsperPage?, userParams?): Observable<PaginatedResult<User[]>> {
+    //through this function, you can see what's get method need and return tye is decided by overseve parameter
+    const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
+    let params = new HttpParams();
+
+    if(page != null && itemsperPage != null) {
+      params = params.append('pageNumbers', page);
+      params = params.append('pageSize', itemsperPage);
+    }
+
+    if(userParams != null) {
+      params = params.append('minAge', userParams.minAge);
+      params = params.append('maxAge', userParams.maxAge);
+      params = params.append('gender', userParams.gender);
+      params = params.append('orderBy', userParams.orderBy);
+    }
+
+    //observe:'response' -> give all http reponse
+    return this.http.get<User[]>(this.baseUrl + 'users', { observe: 'response', params }).pipe(
+      map(response => {
+        paginatedResult.result = response.body;
+        if(response.headers.get('Pagination') != null){
+          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'))
+        }
+        return paginatedResult;
+      })
+    );
   }
 
   getUser(id): Observable<User>{

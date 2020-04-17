@@ -22,6 +22,7 @@ export const AppRoutsModel: Routes = [
         children:
         [
             {path: 'list', component: ListsComponent},
+            //define route.data 中的name
             {path: 'members', component: MemberListComponent, 
                                 resolve: {users: MemberListResolver}},
             {path: 'members/:id', component: MemberDetailComponent, 

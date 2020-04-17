@@ -14,9 +14,11 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
+using DatingApp.api.Helpers;
 
 namespace DatingApp.api.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController] //help input validation
@@ -31,11 +33,20 @@ namespace DatingApp.api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Users()
+        public async Task<IActionResult> Users([FromQuery]UserParams param)
         {
-            var users = await _datingRepository.GetUsers();
-            var userDtos = _mapper.Map<IEnumerable<UserForListDto>>(users);
-            return Ok(userDtos);
+            var id  = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var currentUser = await this._datingRepository.GetUser(id);
+            param.UserID = id;
+            if( String.IsNullOrEmpty(param.Gender))
+            {
+                param.Gender = currentUser.Gender == "male" ? "female" : "male";
+            }
+
+            var users = await _datingRepository.GetUsers(param);
+            var userToreturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+            Response.AddPagination(users.CurrentPage,users.PageSize, users.TotalCount, users.TotalPages );
+            return Ok(userToreturn);
         }
 
         [HttpGet("{id}", Name="GetUser")]
