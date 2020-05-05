@@ -35,7 +35,7 @@ export class AuthService {
           localStorage.setItem('user', JSON.stringify(user.user));
           this.currentUser = user.user;
           this.changeMemberPhoto(this.currentUser.photoUrl);
-          //this.decodeToken = this.jwtHelperService.decodeToken(user.token);
+         // this.decodeToken = this.jwtHelperService.decodeToken(user.token);
         }
       })
     );
@@ -58,6 +58,20 @@ export class AuthService {
   loggedin(): boolean {
     const token = localStorage.getItem('token');
     return !this.jwtHelperService.isTokenExpired(token);
+  }
+
+  roleMatch(allowRolls): boolean {
+    let isMatch = false;
+    // tslint:disable-next-line: no-unused-expression
+    const userRoles = this.decodeToken.role as Array<string> ;
+    allowRolls.forEach(element => {
+      if (userRoles.includes(element)){
+        isMatch = true;
+      }
+    });
+
+    return isMatch;
+
   }
 
 }

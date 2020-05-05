@@ -30,7 +30,7 @@ namespace DatingApp.api.Helpers
             IQueryable<T> query = source.Skip((pageNumber-1)*pageSize).Take(pageSize);
             //var sql2 = ((System.Data.Entity.Core.Objects.ObjectQuery)query)
             //.ToTraceString();
-            Console.WriteLine(query.ToSql<T>());
+            //Console.WriteLine(query.ToSql<T>());
             var items = await query.ToListAsync();
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }

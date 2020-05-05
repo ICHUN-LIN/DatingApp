@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DatingApp.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -25,7 +25,7 @@ namespace DatingApp.API.Controllers
         // Get data by async => improve speed
         // GET api/values
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Roles="Members, Admin")] //Only Roles is member can do that
         public async Task<IActionResult> Get()
         {
             var values = await _dataContext.Values.ToListAsync();

@@ -4,7 +4,7 @@ import { StringifyOptions } from 'querystring';
 //and UserforDetailed and ForListDTO
 export interface User {
     id: number;
-    username: string;
+    userName: string;
     knownas: string;
     age: number;
     gender: string;
@@ -18,6 +18,7 @@ export interface User {
     interests?: string;
     introduction?: string;
     lookingfor?: StringifyOptions;
-    photos?: Photo[]
+    photos?: Photo[];
+    roles?: string[];
 
 }

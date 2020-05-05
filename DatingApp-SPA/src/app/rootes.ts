@@ -1,3 +1,5 @@
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { ListsResolver } from './_resolver/list.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { MemberEditResolver } from './_resolver/member-edit.resolver';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
@@ -21,7 +23,9 @@ export const AppRoutsModel: Routes = [
         canActivate: [AuthGuard],
         children:
         [
-            {path: 'list', component: ListsComponent},
+            {path: 'list', component: ListsComponent, resolve:{users: ListsResolver}},
+            //data can inject to AdminPanelComponent by routeshot
+            {path: 'admin', component: AdminPanelComponent, data: { roles: ['Admin', 'Moderator']} },
             //define route.data 中的name
             {path: 'members', component: MemberListComponent, 
                                 resolve: {users: MemberListResolver}},

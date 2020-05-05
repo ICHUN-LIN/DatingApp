@@ -1,3 +1,5 @@
+import { AdminService } from './_service/admin.service';
+import { ListsResolver } from './_resolver/list.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { MemberEditResolver } from './_resolver/member-edit.resolver';
 import { MemberDetailResolver } from './_resolver/member-detail.resolver';
@@ -13,6 +15,7 @@ import { NgxGalleryModule } from 'ngx-gallery-9';
 import { BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { FileUploadModule } from 'ng2-file-upload';
 // RECOMMENDED
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -39,6 +42,11 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { MemberListResolver } from './_resolver/member-list.resolver';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './_directive/has-role.directive';
+import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 
 export function tokengetter(){
   return localStorage.getItem('token');
@@ -57,7 +65,12 @@ export function tokengetter(){
     MemberCardComponent,
     MemberDetailComponent,
     MemberEditComponent,
-    PhotoEditorComponent//,
+    PhotoEditorComponent,
+    AdminPanelComponent,
+    HasRoleDirective,
+    PhotoManagementComponent,
+    UserManagementComponent,
+    RolesModalComponent//,
     //FileSelectDirective
   ],
   imports: [
@@ -81,11 +94,13 @@ export function tokengetter(){
     NgxGalleryModule,
     FileUploadModule,
     BsDatepickerModule.forRoot(),
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    ModalModule.forRoot()
     //,TimeAgoPipe  
   ],
   providers: [AuthService, ErrorInterCeptorProvider, AlertifyService,  MemberDetailResolver, MemberListResolver,
-  MemberEditResolver, PreventUnsavedChanges ], //給indenpenncy injection 用
+  MemberEditResolver, PreventUnsavedChanges, ListsResolver,AdminService ], //給indenpenncy injection 用
+  entryComponents: [ RolesModalComponent ],
   bootstrap: [AppComponent] // 由此開始render
 
 })

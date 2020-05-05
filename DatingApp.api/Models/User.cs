@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace DatingApp.api.Models
 {
-    public class User
+    //int force pk is interger
+    public class User : IdentityUser<int>
     {
+        /* remove because it's already from parent's class
         public int id { get; set; }
 
         public string UserName { get; set; }
@@ -13,6 +16,7 @@ namespace DatingApp.api.Models
         public byte[] PasswordHash { get; set; }
 
         public byte[] Passwordsalt { get; set; }
+        */
 
         public string Gender { get; set; }
 
@@ -35,6 +39,11 @@ namespace DatingApp.api.Models
         public string Country { get; set; }
 
         //Photo is Navigation Property of User Class 
-        public ICollection<Photo> Photos { get; set; }
+        public virtual ICollection<Photo> Photos { get; set; }
+
+        public virtual ICollection<Like> Likers { get; set; }
+        public virtual ICollection<Like> Likees { get; set; }
+
+        public virtual ICollection<UserRole> UserRoles {get; set;} 
     }
 }

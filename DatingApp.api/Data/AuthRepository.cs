@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace DatingApp.api.Data
 {
+    //Replace by UserManager and RoleManager
     public class AuthRepository : IAuthRepository
     {
         private readonly DataContext _dataContext;
@@ -24,8 +25,9 @@ namespace DatingApp.api.Data
                 return null;
             }
             
-            if(!VerifyPasswordHash(password, user.PasswordHash, user.Passwordsalt))
-                return null;
+            //don't need to do it by it'self
+            //if(!VerifyPasswordHash(password, user.PasswordHash, user.Passwordsalt))
+             //   return null;
 
 
             return user;
@@ -58,8 +60,8 @@ namespace DatingApp.api.Data
         {
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
-            user.PasswordHash = passwordHash;
-            user.Passwordsalt = passwordSalt;
+           // user.PasswordHash = passwordHash;
+            //user.Passwordsalt = passwordSalt;
 
             await _dataContext.Users.AddAsync(user);
             await _dataContext.SaveChangesAsync();

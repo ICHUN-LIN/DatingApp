@@ -17,7 +17,7 @@ namespace DatingApp.api.Controllers
 {
     // [ApiController] sometimes stop exception early, so we can't get our debug break point 
     // comment it can help debugging
-    [Authorize]
+    //[Authorize]
     [Route("api/users/{userId}/photos")]
     [ApiController]
     public class PhotoController : ControllerBase
